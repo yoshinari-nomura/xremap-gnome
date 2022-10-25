@@ -18,6 +18,10 @@ export default class Xremap extends Extension {
           <method name="WMClasses">
             <arg type="s" direction="out" name="win"/>
           </method>
+          <method name="SetFocusByWMClass">
+            <arg type="s" direction="in" name="wm_class"/>
+            <arg type="s" direction="out" name="win"/>
+          </method>
         </interface>
       </node>
     `;
@@ -64,5 +68,36 @@ export default class Xremap extends Extension {
           .map((a) => a.get_meta_window().get_wm_class()),
       ),
     ]);
+  }
+
+  SetFocusByWMClass(wm_class) {
+    const windows = global.get_window_actors().map(a=>a.meta_window);
+    const targets = windows.filter(w=>w.get_wm_class().toLowerCase() === wm_class.toLowerCase() && !w.has_focus());
+    const current = windows.find(w=>w.has_focus());
+    let target = null;
+
+    if (current && current.get_wm_class().toLowerCase() == wm_class.toLowerCase()) {
+      // The current focused window seems to be located at the tail of
+      // the window-actors list.
+      //
+      // Therefor, for cyclic changing focus within the windows that
+      // have the same WM_CLASS (e.g. cyclic focus within the
+      // Gnome-Terminal), we can simply find the target window by
+      // performing first-match.
+      target = targets.at(0)
+    } else {
+      // In another case, if we want to go back and forth between Emacs
+      // and a termial, we may want to back to the previously-focused
+      // terminal.  In this case, we have to perform the search from
+      // the tail.
+      target = targets.at(-1)
+    }
+
+    if (target) {
+      target.activate(global.get_current_time());
+      return wm_class;
+    } else {
+      return '';
+    }
   }
 }
