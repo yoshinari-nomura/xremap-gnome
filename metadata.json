@@ -1,6 +1,6 @@
 {
-  "name": "Xremap",
-  "description": "Allow xremap to fetch the focused app name using D-Bus",
+  "name": "XremapX",
+  "description": "Add SetFocusByWMClass to Xremap",
   "shell-version" : [
     "45",
     "46",
@@ -8,7 +8,7 @@
     "48",
     "49"
   ],
-  "url" : "https://github.com/xremap/xremap-gnome",
-  "uuid": "xremap@k0kubun.com",
+  "url" : "https://github.com/yoshinari-nomura/xremap-gnome",
+  "uuid": "xremap@quickhack.net",
   "version" : 10
 }
