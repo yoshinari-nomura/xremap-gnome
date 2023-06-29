@@ -10,7 +10,7 @@ class Xremap {
   enable() {
     const dbus_object = `
       <node>
-        <interface name="com.k0kubun.Xremap">
+        <interface name="net.quickhack.Xremap">
           <method name="ActiveWindow">
             <arg type="s" direction="out" name="win"/>
           </method>
@@ -28,7 +28,7 @@ class Xremap {
       </node>
     `;
     this.dbus = Gio.DBusExportedObject.wrapJSObject(dbus_object, this);
-    this.dbus.export(Gio.DBus.session, '/com/k0kubun/Xremap');
+    this.dbus.export(Gio.DBus.session, '/net/quickhack/Xremap');
   }
 
   disable() {
