@@ -72,7 +72,7 @@ export default class Xremap extends Extension {
 
   SetFocusByWMClass(wm_class) {
     const windows = global.get_window_actors().map(a=>a.meta_window);
-    const targets = windows.filter(w=>w.get_wm_class().toLowerCase() === wm_class.toLowerCase() && !w.has_focus());
+    const targets = windows.filter(w=>(w.get_wm_class()||"").toLowerCase() === wm_class.toLowerCase() && !w.has_focus());
     const current = windows.find(w=>w.has_focus());
     let target = null;
 
